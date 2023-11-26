@@ -19,7 +19,9 @@ namespace API.Validators
                 .MaximumLength(10)
                 .Must(a => a.ToLower().Contains("street")).WithMessage("Address must contain street");
 
-
+            RuleForEach(u => u.Memberships)
+                .ChildRules(m => m.RuleFor(x => x.Name).NotNull().NotEmpty())
+                .ChildRules(m => m.RuleFor(x => x.Price).NotNull().GreaterThan(0));
         }
     }
 }
