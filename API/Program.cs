@@ -1,4 +1,7 @@
 
+using API.Models;
+using API.Validators;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using System.Reflection;
 
@@ -18,11 +21,13 @@ namespace API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-
             builder.Services.AddFluentValidation(v => 
             {
                 v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             });
+
+            builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
+            builder.Services.AddScoped<IUserManager, UserManager>();
 
             var app = builder.Build();
 
